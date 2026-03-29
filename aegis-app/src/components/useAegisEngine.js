@@ -20,6 +20,7 @@ export function useAegisEngine() {
   const [logs, setLogs] = useState([]);
   const [sleepers, setSleepers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function init() {
@@ -30,13 +31,18 @@ export function useAegisEngine() {
           fetch('/system_logs.csv')
         ]);
 
+        if (!nodeRes.ok || !schemaRes.ok || !logsRes.ok) {
+          throw new Error(`Failed to fetch datasets from proxy. Ensure the python server (python -m http.server 8000) is running in the root folder c:\\AEGIS. Status Codes: Node(${nodeRes.status}), Schema(${schemaRes.status}), Logs(${logsRes.status})`);
+        }
+
         const nodeCsv = await nodeRes.text();
         const schemaCsv = await schemaRes.text();
         const logsCsv = await logsRes.text();
 
         parseData(nodeCsv, schemaCsv, logsCsv);
       } catch (err) {
-        console.error('Failed to load datasets', err);
+        console.error('AEGIS Engine Error:', err);
+        setError(err.message || 'Failed to connect to backend telemetry server on port 8000.');
       } finally {
         setLoading(false);
       }
@@ -120,5 +126,5 @@ export function useAegisEngine() {
     setSleepers(nodeArr.slice(0, 15));
   }
 
-  return { nodes, dupInfo, schemaConfig, logs, sleepers, loading };
+  return { nodes, dupInfo, schemaConfig, logs, sleepers, loading, error };
 }

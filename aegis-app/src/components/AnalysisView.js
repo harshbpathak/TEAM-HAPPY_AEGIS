@@ -37,7 +37,7 @@ export default function AnalysisView() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ fontFamily: 'Orbitron', fontSize: '18px', color: 'var(--amber)', letterSpacing: '2px', textShadow: '0 0 10px rgba(245, 158, 11, 0.2)', marginBottom: '8px' }}>
-        <span style={{ fontSize: '20px', marginRight: '8px' }}>⚡</span> FORENSIC ANOMALY ANALYSIS — VECTORS DISCOVERED
+        <span style={{ fontSize: '20px', marginRight: '8px' }}>[!]</span> FORENSIC ANOMALY ANALYSIS — VECTORS DISCOVERED
       </div>
       
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px' }}>
